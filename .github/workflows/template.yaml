@@ -1,6 +1,5 @@
 name: Generate PRs for new Branches
 on:
-  push:
   pull_request:
     branches: 
       - 'main'
