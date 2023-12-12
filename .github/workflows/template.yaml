@@ -1,6 +1,7 @@
 name: Generate PRs for new Branches
 on:
   push:
+  pull_request:
     branches: 
       - 'main'
 jobs:
@@ -12,13 +13,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DS_TOUR_PAT }}
         run: |
-          echo $branch
+          branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
+          echo 'branch is $branch'
           author=$(git show --format="%an" $branch | head -n 1)
-          echo $author
-          team_members=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /orgs/{ORG}/teams/{TEAM_SLUG}/members --json login)
-          if [[ "$team_members" =~ $author ]]; then
-            echo -e 'Do nothing, since $author knows how to create PRs...'
-          else
-            echo -e 'Autogenerating PR since $author isnt part of our team'
-            gh pr create -B main -H $branch --title 'Automated PR for branch: $branch' --body 'really long string with template'
-          fi
+          echo 'author is $author'
+          # team_members=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /orgs/{ORG}/teams/{TEAM_SLUG}/members --json login)
+          # if [[ "$team_members" =~ $author ]]; then
+          #   echo -e 'Do nothing, since $author knows how to create PRs...'
+          # else
+          #   echo -e 'Autogenerating PR since $author isnt part of our team'
+          #   gh pr create -B main -H $branch --title 'Automated PR for branch: $branch' --body 'really long string with template'
+          # fi
