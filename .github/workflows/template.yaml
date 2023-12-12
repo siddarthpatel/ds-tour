@@ -12,7 +12,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.DS_TOUR_PAT }}
         run: |
-          branch=${{ github.head.ref }}
+          branch=${{ github.head_ref }}
           echo "branch is $branch"
           author=$(git show --format="%an" $branch | head -n 1)
           echo "author is $author"
