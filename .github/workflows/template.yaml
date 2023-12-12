@@ -14,9 +14,12 @@ jobs:
         run: |
           branch=${{ github.head_ref }}
           echo "branch is $branch"
-          pwd
-          # author=$(git show --format="%an" main | head -n 1)
-          # echo "author is $author"
+          workspace=${{ github.workspace }}
+          echo "workspace is $workspace"
+          cd ${{ github.workspace }}
+          git init
+          author=$(git show --format="%an" main | head -n 1)
+          echo "author is $author"
           # team_members=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /orgs/{ORG}/teams/{TEAM_SLUG}/members --json login)
           # if [[ "$team_members" =~ $author ]]; then
           #   echo -e "Do nothing, since $author knows how to create PRs...""
